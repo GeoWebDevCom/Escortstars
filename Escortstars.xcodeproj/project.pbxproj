@@ -869,7 +869,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "/Users/tecorb/Desktop/Escortstars/Escortstars/Helper Classes/AppConstants/Escortstars.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Escortstars/Helper Classes/AppConstants/Escortstars.pch";
 				INFOPLIST_FILE = Escortstars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -889,7 +889,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "/Users/tecorb/Desktop/Escortstars/Escortstars/Helper Classes/AppConstants/Escortstars.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Escortstars/Helper Classes/AppConstants/Escortstars.pch";
 				INFOPLIST_FILE = Escortstars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
