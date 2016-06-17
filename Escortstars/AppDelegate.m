@@ -1,127 +1,227 @@
 //
 //  AppDelegate.m
-//  Escortstars
+//  SlideMenu
 //
-//  Created by TecOrb on 04/05/16.
-//  Copyright © 2016 Nakul Sharma. All rights reserved.
+//  Created by Aryan Gh on 4/24/13.
+//  Copyright (c) 2013 Aryan Ghassemi. All rights reserved.
 //
-
 #import "AppDelegate.h"
-
-@interface AppDelegate ()
-
+#import "BaseViewController.h"
+#import "LoginViewController.h"
+#import "ProfileViewController.h"
+@interface AppDelegate(){
+    UIApplication *app;
+    User *user;
+}
 @end
-
 @implementation AppDelegate
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                            bundle: nil];
+	LeftMenuViewController *leftMenu = (LeftMenuViewController*)[mainStoryboard
+													   instantiateViewControllerWithIdentifier: @"LeftMenuViewController"];
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [CommonMethods configureProgressBar];
+    self.callCenter = [[CTCallCenter alloc] init];
+    [self handleCall];
+    BOOL isLoggedIN = (BOOL)[kUserDefault boolForKey:kLoggedIN];
+    if(isLoggedIN){
+        [kUserDefault setBool:YES forKey:kNewSession];
+         ProfileViewController *profileVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+        SlideNavigationController *navController = [[SlideNavigationController alloc]initWithRootViewController:profileVC];
+        navController.leftMenu = leftMenu;
+        navController.menuRevealAnimationDuration = .18;
+        self.window.rootViewController = navController;
+    }else{
+
+        LoginViewController *loginViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        SlideNavigationController *navController = [[SlideNavigationController alloc]initWithRootViewController:loginViewController];
+        navController.leftMenu = leftMenu;
+
+        navController.menuRevealAnimationDuration = .18;
+        self.window.rootViewController = navController;
+    }
     return YES;
 }
 
+
+
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [kUserDefault setBool:YES forKey:kNewSession];
+//    _isBackgroundMode = YES;
+//    [self.locationManager startUpdatingLocation];
+//    [self handleCall];
+}
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [kUserDefault setBool:YES forKey:kNewSession];
+//    [_locationManager startUpdatingLocation];
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+//- (void)applicationDidEnterBackground:(UIApplication *)application
+//{
+//    _bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+//        // Clean up any unfinished task business by marking where you
+//        // stopped or ending the task outright.
+//        [application endBackgroundTask:_bgTask];
+//        _bgTask = UIBackgroundTaskInvalid;
+//    }];
+//
+//    // Start the long-running task and return immediately.
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        // Do the work associated with the task, preferably in chunks.
+//        [_locationManager startUpdatingLocation];
+//        [application endBackgroundTask:_bgTask];
+//        _bgTask = UIBackgroundTaskInvalid;
+//    });
+//}
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [kUserDefault setBool:YES forKey:kNewSession];
+
+//    [_locationManager startUpdatingLocation];
+}
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [kUserDefault setBool:YES forKey:kNewSession];
+
+	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
-}
-
-#pragma mark - Core Data stack
-
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-
-- (NSURL *)applicationDocumentsDirectory {
-    // The directory the application uses to store the Core Data store file. This code uses a directory named "com.tecorb.Escortstars" in the application's documents directory.
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
-- (NSManagedObjectModel *)managedObjectModel {
-    // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Escortstars" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModel;
-}
-
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it.
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-    
-    // Create the coordinator and store
-    
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Escortstars.sqlite"];
-    NSError *error = nil;
-    NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        // Report any error we got.
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
-        dict[NSLocalizedFailureReasonErrorKey] = failureReason;
-        dict[NSUnderlyingErrorKey] = error;
-        error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        // Replace this with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    return _persistentStoreCoordinator;
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    [kUserDefault setBool:YES forKey:kNewSession];
+	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 
-- (NSManagedObjectContext *)managedObjectContext {
-    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
-        return nil;
-    }
-    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-    return _managedObjectContext;
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC),
+                   dispatch_get_main_queue(), ^{
+                       // Check result of your operation and call completion block with the result
+                       // [self.locationManager startUpdatingLocation];
+                       completionHandler(UIBackgroundFetchResultNewData);
+                   });
+}
+-(void)handleCall
+{
+    __weak typeof(self) weakSelf = self;
+    self.callCenter.callEventHandler = ^(CTCall *call){
+
+        if ([call.callState isEqualToString: CTCallStateConnected])
+            {
+            NSLog(@"call stopped");
+            }
+        else if ([call.callState isEqualToString: CTCallStateDialing])
+            {
+            }
+        else if ([call.callState isEqualToString: CTCallStateDisconnected])
+            {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Escortstars!" message:@"Would you like to add this caller in list?" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }];
+            UIAlertAction *whitelistAction = [UIAlertAction actionWithTitle:@"Add to Whitelist" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //whitelist
+                [alert dismissViewControllerAnimated:YES completion:nil];
+
+                [weakSelf onClickAddNewEntryToWhiteList];
+            }];
+            UIAlertAction *blacklistAction = [UIAlertAction actionWithTitle:@"Add to Blacklist" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                //blacklist
+                [alert dismissViewControllerAnimated:YES completion:nil];
+                [weakSelf onClickAddNewEntryToBlackList];
+
+            }];
+
+            [alert addAction:blacklistAction];
+            [alert addAction:whitelistAction];
+            [alert addAction:cancelAction];
+            [weakSelf.window.rootViewController presentViewController:alert animated:YES completion:nil];
+
+
+            }
+        else if ([call.callState isEqualToString: CTCallStateIncoming])
+            {
+
+            }
+    };
 }
 
-#pragma mark - Core Data Saving support
+-(void)onClickAddNewEntryToBlackList{
+    //barTint, titleColor, backGround
+    AddNewViewController *addNewVC = [[UIStoryboard storyboardWithName:@"Main"
+                                                                bundle: nil] instantiateViewControllerWithIdentifier:@"AddNewViewController"];
+    addNewVC.delegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addNewVC];
+    navController.navigationBar.barTintColor = kNavigationColor;
+    navController.navigationBar.backgroundColor = kNavigationColor;
+    navController.navigationBar.tintColor = [UIColor whiteColor];
+    [navController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    addNewVC.listType = BlackList;
+    navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [_window.rootViewController presentViewController:navController animated:true completion:nil];
 
-- (void)saveContext {
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        NSError *error = nil;
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
+}
+-(void)onClickAddNewEntryToWhiteList{
+    AddNewViewController *addNewVC = [[UIStoryboard storyboardWithName:@"Main"
+                                                                bundle: nil] instantiateViewControllerWithIdentifier:@"AddNewViewController"];
+    addNewVC.delegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addNewVC];
+    navController.navigationBar.barTintColor = kNavigationColor;
+    navController.navigationBar.backgroundColor = kNavigationColor;
+    navController.navigationBar.tintColor = [UIColor whiteColor];
+    [navController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    addNewVC.listType = WhiteList;
+    navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [_window.rootViewController presentViewController:navController animated:true completion:nil];
+}
+
+#pragma CLLocationManager delegate methods
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    NSLog(@"updating location..");
+    if (_isBackgroundMode)
+        {
+        [self.locationManager allowDeferredLocationUpdatesUntilTraveled:CLLocationDistanceMax timeout:5];
         }
+    [self handleCall];
     }
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
 }
 
+
+-(void)numberDidSavedToList:(NumberListType)listType number:(NSString *)number{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (listType == BlackList) {
+        [params setValue:@"0" forKey:@"list"];
+    } else if (listType == WhiteList){
+        [params setValue:@"1" forKey:@"list"];
+    }
+    NSDictionary *userDict = [kUserDefault valueForKey:kUserInfo];
+    user = [User modelObjectWithDictionary:userDict];
+    [params setValue:user.userID forKey:@"id_user"];
+    [params setValue:@"app_addnumber" forKey:@"action"];
+    [params setValue:number forKey:@"phone"];
+
+    [CommonMethods showLoader:@"Please wait.."];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/html",@"text/json",nil];
+    [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
+     {
+     [CommonMethods hideLoader];
+     NSLog(@"response is : %@", responseObject);
+     } failure:^(NSURLSessionTask *operation, NSError *error) {
+         [CommonMethods hideLoader];
+     }];
+
+}
+-(void)addingNumberDidCanceled{}
 @end

@@ -1,25 +1,24 @@
 //
 //  AppDelegate.h
-//  Escortstars
+//  SlideMenu
 //
-//  Created by TecOrb on 04/05/16.
-//  Copyright © 2016 Nakul Sharma. All rights reserved.
+//  Created by Aryan Gh on 4/24/13.
+//  Copyright (c) 2013 Aryan Ghassemi. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "SlideNavigationController.h"
+#import "LeftMenuViewController.h"
+#import <CoreTelephony/CTCallCenter.h>
+#import "AddNewViewController.h"
+#import <CoreTelephony/CTCall.h>
+#import <CoreLocation/CoreLocation.h>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,AddNewNumberToListProtocol>//,CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
-- (void)saveContext;
-- (NSURL *)applicationDocumentsDirectory;
-
+@property (nonatomic, strong) CTCallCenter* callCenter;
+@property (nonatomic) UIBackgroundTaskIdentifier bgTask;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property BOOL isBackgroundMode;
 
 @end
-

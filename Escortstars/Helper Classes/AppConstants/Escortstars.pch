@@ -1,0 +1,34 @@
+//
+//  Escortstars.pch
+//  Escortstars
+//
+//  Created by TecOrb on 04/05/16.
+//  Copyright © 2016 Nakul Sharma. All rights reserved.
+//
+
+#ifndef Escortstars_pch
+#define Escortstars_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* Escortstars_pch */
+
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "AppConstants.h"
+#import "CommonMethods.h"
+#import "BaseViewController.h"
+#import <AFNetworking/AFNetworking.h>
+#import "User.h"
+#import "UIView+FormScroll.h"
+
+#endif
