@@ -10,6 +10,6 @@
 
 #import "SlideNavigationController.h"
 
-@interface FAQViewController : BaseViewController <SlideNavigationControllerDelegate>
+@interface FAQViewController : BaseViewController <SlideNavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @end

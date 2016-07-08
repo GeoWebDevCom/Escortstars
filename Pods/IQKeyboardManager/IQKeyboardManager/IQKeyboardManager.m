@@ -1892,6 +1892,6 @@ void _IQShowLog(NSString *logString);
 void _IQShowLog(NSString *logString)
 {
 #if IQKEYBOARDMANAGER_DEBUG
-    NSLog(@"IQKeyboardManager: %@",logString);
+    //NSLog(@"IQKeyboardManager: %@",logString);
 #endif
 }

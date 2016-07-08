@@ -71,11 +71,11 @@
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(DropDownListView:Datalist:)]) {
         NSMutableArray *arryResponceData=[[NSMutableArray alloc]init];
-        NSLog(@"%@",self.arryData);
+        //NSLog(@"%@",self.arryData);
         for (int k=0; k<self.arryData.count; k++) {
             NSIndexPath *path=[self.arryData objectAtIndex:k];
             [arryResponceData addObject:[_kDropDownOption objectAtIndex:path.row]];
-            NSLog(@"pathRow=%ld",(long)path.row);
+            //NSLog(@"pathRow=%ld",(long)path.row);
         }
     
         [self.delegate DropDownListView:self Datalist:arryResponceData];

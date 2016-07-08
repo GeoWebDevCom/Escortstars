@@ -276,31 +276,31 @@
 #pragma mark-
 #pragma mark- Scroll View Delegate
 
--(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    int pageCurrent  = (int)floor(scrollV.contentOffset.x/self.view.frame.size.width);
-    switch (pageCurrent)
-    {
-        case 0:
-        {
-        [self raceTo:CGPointMake(blackListBtn.superview.frame.origin.x, 0) withSnapBack:YES delegate:nil callback:nil];
-        }
-        break;
-        case 1:
-        {
-        [self raceTo:CGPointMake(whiteListBtn.superview.frame.origin.x, 0) withSnapBack:YES delegate:nil callback:nil];
-        }
-        break;
-        case 2:
-        {
-        [self raceTo:CGPointMake(dropInBtn.superview.frame.origin.x, 0) withSnapBack:YES delegate:nil callback:nil];
-        }
-        break;
-        default:
-        break;
-    }
-    [self calledViewWillAppear];
-}
+//-(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    int pageCurrent  = (int)floor(scrollV.contentOffset.x/self.view.frame.size.width);
+//    switch (pageCurrent)
+//    {
+//        case 0:
+//        {
+//        [self raceTo:CGPointMake(blackListBtn.superview.frame.origin.x, 0) withSnapBack:YES delegate:nil callback:nil];
+//        }
+//        break;
+//        case 1:
+//        {
+//        [self raceTo:CGPointMake(whiteListBtn.superview.frame.origin.x, 0) withSnapBack:YES delegate:nil callback:nil];
+//        }
+//        break;
+//        case 2:
+//        {
+//        [self raceTo:CGPointMake(dropInBtn.superview.frame.origin.x, 0) withSnapBack:YES delegate:nil callback:nil];
+//        }
+//        break;
+//        default:
+//        break;
+//    }
+//    [self calledViewWillAppear];
+//}
 
 -(void) calledViewWillAppear
 {
@@ -461,13 +461,13 @@
     } error:nil];
 
     NSURLSessionUploadTask *uploadTask;
-    [KVNProgress showProgress:0.0 status:@"Uploading"];
+    [KVNProgress showProgress:0.0 status:@"Sending..."];
     uploadTask = [manager
                   uploadTaskWithStreamedRequest:request
                   progress:^(NSProgress * _Nonnull uploadProgress) {
                       dispatch_async(dispatch_get_main_queue(), ^{
                           if (uploadProgress.fractionCompleted == 1.00000) {
-                              [CommonMethods showSuccessWithStatus:@"Done"];
+                              [CommonMethods showSuccessWithStatus:@"Sent"];
                           }else{
                               [KVNProgress updateStatus:[NSString stringWithFormat:@"Sending...\n%.0f %% Done", (uploadProgress.fractionCompleted * 100)]];
                               [KVNProgress updateProgress:uploadProgress.fractionCompleted animated:YES];
@@ -476,7 +476,7 @@
                   }
                   completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
                       if (error) {
-                          NSLog(@"Error: %@", error);
+                          //NSLog(@"Error: %@", error);
                       } else {
                                 BOOL result = (_Bool)responseObject[@"result"];
                                 if (result)
@@ -508,7 +508,7 @@
     {
     MFMessageComposeViewController *messageComposer = [[MFMessageComposeViewController alloc] init];
     messageComposer.messageComposeDelegate = self;
-    [messageComposer setSubject:@"Emergency Escortstars"];
+    [messageComposer setSubject:@"Emergency E-stars"];
     NSString *body = @"It's an emergency";
     NSData *imageData = UIImageJPEGRepresentation(image, 0.7);
     [messageComposer addAttachmentData:imageData typeIdentifier:@"image/jpeg" filename:@"emergency.jpeg"];
@@ -525,17 +525,17 @@
     switch (result) {
         case MFMailComposeResultCancelled:
             message = @"Mail cancelled";
-            //NSLog(@"Mail cancelled");
+            ////NSLog(@"Mail cancelled");
             break;
 
         case MFMailComposeResultSaved:
             message = @"Mail saved";
-            //NSLog(@"Mail saved");
+            ////NSLog(@"Mail saved");
             break;
 
         case MFMailComposeResultSent:
             message = @"Mail sent";
-            //NSLog(@"Mail sent");
+            ////NSLog(@"Mail sent");
             break;
 
         case MFMailComposeResultFailed:
@@ -561,12 +561,12 @@
     switch (result) {
             case MessageComposeResultCancelled:
             message = @"SMS cancelled";
-            //NSLog(@"Mail cancelled");
+            ////NSLog(@"Mail cancelled");
             break;
 
             case MessageComposeResultSent:
             message = @"SMS sent";
-            //NSLog(@"Mail sent");
+            ////NSLog(@"Mail sent");
             break;
 
             case MessageComposeResultFailed:
@@ -604,7 +604,7 @@
         if (!granted) {
 
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@" store request error = %@", error);
+                //NSLog(@" store request error = %@", error);
 
             });
 
@@ -616,10 +616,10 @@
         CNMutableContact *contactToBlacklist = [[CNMutableContact alloc] init];
         contactToBlacklist.givenName = @"Blacklisted Callers";
         contactToBlacklist.imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"spam"], 0.7);
-        contactToBlacklist.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported spammers by Escorts. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
+        contactToBlacklist.note = @"Hi there 👋! This contact was created by E-stars and contains the latest reported spammers. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
         CNMutableContact *contactToWhitelist = [[CNMutableContact alloc] init];
         contactToWhitelist.givenName = @"Whitelisted Callers";
-        contactToWhitelist.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported whitelist custumers by Escorts. It’s updated every time you refresh your WhiteList — so please don’t delete this contact!";
+        contactToWhitelist.note = @"Hi there 👋! This contact was created by E-stars and contains the latest reported whitelist custumers. It’s updated every time you refresh your WhiteList — so please don’t delete this contact!";
         CNSaveRequest *request = [[CNSaveRequest alloc] init];
         NSString *containerId = store.defaultContainerIdentifier;
 
@@ -638,8 +638,6 @@
     }];
 
 }
-
-
 
 
 -(void)syncronizeBlackList{
@@ -678,7 +676,7 @@
     [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
      {
      [CommonMethods hideLoader];
-     NSLog(@"whitelist syncronize response is : %@", responseObject);
+     //NSLog(@"whitelist syncronize response is : %@", responseObject);
      NSDictionary *phones = responseObject[@"phones"];
      [self addSyncronizedListInSystemContacts:phones inlistType:WhiteList];
      } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -746,7 +744,7 @@
                         [request updateContact:cont];
                         NSError *saveError;
                         if (![store executeSaveRequest:request error:&saveError]) {
-                            NSLog(@"error in saving contact..");
+                            //NSLog(@"error in saving contact..");
                         }else{
                             [self calledViewWillAppear];
                         }
@@ -766,130 +764,6 @@
 
 
 
-//-(void)addToContactList:(NSString*)rowID{
-//    CNAuthorizationStatus status = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-//
-//    if (status == CNAuthorizationStatusDenied || status == CNAuthorizationStatusRestricted) {
-//
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"This app previously was refused permissions to contacts; Please go to settings and grant permission to this app so it can add the desired contact" preferredStyle:UIAlertControllerStyleAlert];
-//
-//        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-//
-//        [self presentViewController:alert animated:TRUE completion:nil];
-//
-//        return;
-//
-//    }
-//
-//    CNContactStore *store = [[CNContactStore alloc] init];
-//    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//        if (granted == YES) {
-//            NSArray *keys = @[CNContactBirthdayKey,CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactEmailAddressesKey];
-//            NSString *containerId = store.defaultContainerIdentifier;
-//            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
-//            NSError *error;
-//            NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
-//            if (error) {
-//                return ;
-//            } else {
-//                NSMutableArray *numbers = [[NSMutableArray alloc]init];
-//                CNLabeledValue *aLabel = [CNLabeledValue labeledValueWithLabel:[NSString stringWithFormat:@"%@ |%@",_nameTextField.text,rowID] value:[CNPhoneNumber phoneNumberWithStringValue:[NSString stringWithFormat:@"%@",_numberTextField.text]]];
-//                [numbers removeAllObjects];
-//                [numbers addObject:aLabel];
-//                NSString *searchingContact;
-//                if (self.listType == BlackList) {
-//                    searchingContact = @"Blacklisted Callers";
-//                } else if (self.listType == WhiteList){
-//                    searchingContact = @"Whitelisted Callers";
-//                }
-//                BOOL found = NO;
-//                for (CNContact *contact in cnContacts) {
-//                    if ([contact.givenName isEqualToString:searchingContact])
-//                        {
-//                        found = YES;
-//                        CNMutableContact *cont = [contact mutableCopy];
-//                        [numbers addObjectsFromArray:contact.phoneNumbers];
-//                        cont.phoneNumbers = numbers;
-//                        CNSaveRequest *request = [[CNSaveRequest alloc] init];
-//                        [request updateContact:cont];
-//                        NSError *saveError;
-//                        if (![store executeSaveRequest:request error:&saveError]) {
-//                            NSLog(@"error in saving contact..");
-//                        }else{
-//                        }
-//                        }
-//                }
-//                if (!found) {
-//                    [self addContactsForList:self.listType rowID:rowID];
-//                }
-//            }
-//        }else{
-//            [CommonMethods showAlertWithMessage:@"Not Authorised!" title:@"Error!" inViewController:self];
-//        }
-//    }];
-//}
-
-//-(void)addContactsForList:(NumberListType)listType rowID:(NSString*)rowID{
-//    CNAuthorizationStatus status = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-//    if (status == CNAuthorizationStatusDenied || status == CNAuthorizationStatusRestricted) {
-//
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"This app previously was refused permissions to contacts; Please go to settings and grant permission to this app so it can add the desired contact" preferredStyle:UIAlertControllerStyleAlert];
-//
-//        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-//        [self.presentingViewController presentViewController:alert animated:TRUE completion:nil];
-//        return;
-//    }
-//
-//
-//
-//    CNContactStore *store = [[CNContactStore alloc] init];
-//
-//    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//
-//        if (!granted) {
-//
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSLog(@" store request error = %@", error);
-//
-//            });
-//
-//            return;
-//
-//        }
-//
-//        // create contact
-//        CNMutableContact *contact = [[CNMutableContact alloc] init];
-//        if (listType == BlackList) {
-//            contact.givenName = @"Blacklisted Callers";
-//
-//            contact.imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"spam"], 0.7);
-//            contact.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported spammers by Escorts. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
-//        } else {
-//            contact.givenName = @"Whitelisted Callers";
-//            contact.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported whitelist custumers by Escorts. It’s updated every time you refresh your WhiteList — so please don’t delete this contact!";
-//        }
-//        NSMutableArray *numbers = [[NSMutableArray alloc]init];
-//        CNLabeledValue *aLabel = [CNLabeledValue labeledValueWithLabel:[NSString stringWithFormat:@"%@|%@",_nameTextField.text,rowID] value:[CNPhoneNumber phoneNumberWithStringValue:[NSString stringWithFormat:@"%@",_numberTextField.text]]];
-//        [numbers removeAllObjects];
-//        [numbers addObject:aLabel];
-//        contact.phoneNumbers = numbers;
-//        CNSaveRequest *request = [[CNSaveRequest alloc] init];
-//        NSString *containerId = store.defaultContainerIdentifier;
-//        [request addContact:contact toContainerWithIdentifier:containerId];
-//        NSError *saveError;
-//
-//        if (![store executeSaveRequest:request error:&saveError]) {
-//            [kUserDefault setBool:NO forKey:kContactCreated];
-//        }
-//        else{
-//            [kUserDefault setBool:YES forKey:kContactCreated];
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//        }
-//    }];
-//}
-
-
-
 
 
 
@@ -900,33 +774,6 @@
 
 -(void)numberDidSavedToList:(NumberListType)listType number:(NSString *)number{
 
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self prefersStatusBarHidden];
-//        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//        [self calledViewWillAppear];
-//        if (listType == BlackList) {
-//            [params setValue:@"0" forKey:@"list"];
-//        } else if (listType == WhiteList){
-//            [params setValue:@"1" forKey:@"list"];
-//        }
-//        NSDictionary *userDict = [kUserDefault valueForKey:kUserInfo];
-//        user = [User modelObjectWithDictionary:userDict];
-//        [params setValue:user.userID forKey:@"id_user"];
-//        [params setValue:@"app_addnumber" forKey:@"action"];
-//        [params setValue:number forKey:@"phone"];
-//
-//        [CommonMethods showLoader:@"Please wait.."];
-//        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//        manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
-//        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/html",@"text/json",nil];
-//        [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
-//         {
-//         [CommonMethods hideLoader];
-//         NSLog(@"response is : %@", responseObject);
-//         } failure:^(NSURLSessionTask *operation, NSError *error) {
-//             [CommonMethods hideLoader];
-//         }];
-//    });
 }
 -(void)addingNumberDidCanceled{
 

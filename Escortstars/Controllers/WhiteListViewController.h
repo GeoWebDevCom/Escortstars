@@ -12,6 +12,15 @@
 #import "SlideNavigationController.h"
 #import "ContactTableViewCell.h"
 
+
+@protocol WhiteListProtocol;
+@protocol WhiteListProtocol <NSObject>
+- (void)whiteListDidClosed;
+@end
+
 @interface WhiteListViewController : UIViewController <SlideNavigationControllerDelegate>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, assign) id <WhiteListProtocol>delegate;
+-(void)contactsDetailsFromAddressBook;
+
 @end

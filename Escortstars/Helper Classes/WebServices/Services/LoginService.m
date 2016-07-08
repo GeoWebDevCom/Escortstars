@@ -17,7 +17,7 @@
 {
     NSMutableDictionary *requestParameters = [ServerConnect setCommonRequestParameters:parameters];
     [requestParameters setObject:@"login" forKey:@"action"];
-    //NSLog(@"%@",requestParameters);
+    ////NSLog(@"%@",requestParameters);
 }
 
 //

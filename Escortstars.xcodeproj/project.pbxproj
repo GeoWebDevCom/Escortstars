@@ -54,6 +54,12 @@
 		8F583A9E1CDB3AE500BB57B2 /* BlackListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F583A9D1CDB3AE500BB57B2 /* BlackListViewController.m */; };
 		8F583AA21CDB3B8500BB57B2 /* DropInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F583AA11CDB3B8500BB57B2 /* DropInViewController.m */; };
 		8F83676E1CF452E7001BDEB5 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F83676D1CF452E7001BDEB5 /* star.png */; };
+		8F8EBB741D1D1B73001D27A8 /* FAQTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8EBB731D1D1B73001D27A8 /* FAQTableViewCell.m */; };
+		8F8EBB791D1D2CA8001D27A8 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EBB751D1D2CA8001D27A8 /* 1.png */; };
+		8F8EBB7A1D1D2CA8001D27A8 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EBB761D1D2CA8001D27A8 /* 2.png */; };
+		8F8EBB7B1D1D2CA8001D27A8 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EBB771D1D2CA8001D27A8 /* 3.png */; };
+		8F8EBB7C1D1D2CA8001D27A8 /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EBB781D1D2CA8001D27A8 /* 4.png */; };
+		8F8EBB7E1D1D5294001D27A8 /* privacypolicy.docx in Resources */ = {isa = PBXBuildFile; fileRef = 8F8EBB7D1D1D5294001D27A8 /* privacypolicy.docx */; };
 		8FB0BDFF1CDA414A00F10FE8 /* WhiteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FB0BDFE1CDA414A00F10FE8 /* WhiteListViewController.m */; };
 		8FB0BE021CDA4DE700F10FE8 /* AddNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FB0BE011CDA4DE700F10FE8 /* AddNewViewController.m */; };
 		8FBF30BE1CFC601A0099E259 /* ContactsBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF30BD1CFC601A0099E259 /* ContactsBaseViewController.m */; };
@@ -142,6 +148,13 @@
 		8F583AA01CDB3B8500BB57B2 /* DropInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropInViewController.h; sourceTree = "<group>"; };
 		8F583AA11CDB3B8500BB57B2 /* DropInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropInViewController.m; sourceTree = "<group>"; };
 		8F83676D1CF452E7001BDEB5 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		8F8EBB721D1D1B73001D27A8 /* FAQTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQTableViewCell.h; sourceTree = "<group>"; };
+		8F8EBB731D1D1B73001D27A8 /* FAQTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQTableViewCell.m; sourceTree = "<group>"; };
+		8F8EBB751D1D2CA8001D27A8 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		8F8EBB761D1D2CA8001D27A8 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
+		8F8EBB771D1D2CA8001D27A8 /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
+		8F8EBB781D1D2CA8001D27A8 /* 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4.png; sourceTree = "<group>"; };
+		8F8EBB7D1D1D5294001D27A8 /* privacypolicy.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = privacypolicy.docx; sourceTree = "<group>"; };
 		8FB0BDFD1CDA414A00F10FE8 /* WhiteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteListViewController.h; sourceTree = "<group>"; };
 		8FB0BDFE1CDA414A00F10FE8 /* WhiteListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteListViewController.m; sourceTree = "<group>"; };
 		8FB0BE001CDA4DE700F10FE8 /* AddNewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewViewController.h; sourceTree = "<group>"; };
@@ -396,7 +409,12 @@
 				8F12AECD1CD9ED5A0008E75C /* gear.png */,
 				8F3CC2A61CF4726C006E3917 /* starIcon.png */,
 				8F4F86541D12E61C000791E4 /* iTunesArtwork.png */,
+				8F8EBB7D1D1D5294001D27A8 /* privacypolicy.docx */,
 				8F4F86551D12E61C000791E4 /* iTunesArtwork@2x.png */,
+				8F8EBB751D1D2CA8001D27A8 /* 1.png */,
+				8F8EBB761D1D2CA8001D27A8 /* 2.png */,
+				8F8EBB771D1D2CA8001D27A8 /* 3.png */,
+				8F8EBB781D1D2CA8001D27A8 /* 4.png */,
 				8F83676D1CF452E7001BDEB5 /* star.png */,
 				8F12AECE1CD9ED5A0008E75C /* leftMenu.jpg */,
 				8F2024BA1CDB96380041CFB1 /* escortstar.png */,
@@ -423,6 +441,8 @@
 			children = (
 				8FC74A3A1CEB04FE00F5CC21 /* ContactTableViewCell.h */,
 				8FC74A3B1CEB04FE00F5CC21 /* ContactTableViewCell.m */,
+				8F8EBB721D1D1B73001D27A8 /* FAQTableViewCell.h */,
+				8F8EBB731D1D1B73001D27A8 /* FAQTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -640,12 +660,17 @@
 				8F12AEA91CD9ED440008E75C /* Main.storyboard in Resources */,
 				8F4F86561D12E61C000791E4 /* iTunesArtwork.png in Resources */,
 				8F2024BB1CDB96380041CFB1 /* escortstar.png in Resources */,
+				8F8EBB791D1D2CA8001D27A8 /* 1.png in Resources */,
 				8F583A951CDB2F9200BB57B2 /* done@2x.png in Resources */,
 				8F12AEE31CD9ED5A0008E75C /* rightMenu.jpg in Resources */,
 				8F12AEE21CD9ED5A0008E75C /* leftMenu.jpg in Resources */,
 				8F12AE9D1CD9EC1A0008E75C /* LaunchScreen.storyboard in Resources */,
 				8F12AEDE1CD9ED5A0008E75C /* menu-button@2x.png in Resources */,
+				8F8EBB7C1D1D2CA8001D27A8 /* 4.png in Resources */,
+				8F8EBB7B1D1D2CA8001D27A8 /* 3.png in Resources */,
 				8F12AEE01CD9ED5A0008E75C /* animation.png in Resources */,
+				8F8EBB7E1D1D5294001D27A8 /* privacypolicy.docx in Resources */,
+				8F8EBB7A1D1D2CA8001D27A8 /* 2.png in Resources */,
 				8F12AE9A1CD9EC1A0008E75C /* Assets.xcassets in Resources */,
 				8F3CC2A71CF4726C006E3917 /* starIcon.png in Resources */,
 			);
@@ -710,6 +735,7 @@
 				8F07AE1A1CDCC6A700379CD2 /* BlockPermanentlyViewController.m in Sources */,
 				8FC74A3C1CEB04FE00F5CC21 /* ContactTableViewCell.m in Sources */,
 				8F583A9B1CDB369900BB57B2 /* BaseViewController.m in Sources */,
+				8F8EBB741D1D1B73001D27A8 /* FAQTableViewCell.m in Sources */,
 				8F2639AD1CE348B0003ADD76 /* PauseStopViewController.m in Sources */,
 				8F07AE261CDCC74200379CD2 /* SettingsViewController.m in Sources */,
 				8F583A981CDB2F9200BB57B2 /* DropDownViewCell.m in Sources */,
@@ -810,7 +836,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "2650bd13-0df9-410d-833e-629a7b5951fa";
+				PROVISIONING_PROFILE = "ff57a680-d24c-4d85-bd9e-ef0b9db059be";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -852,7 +878,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "2650bd13-0df9-410d-833e-629a7b5951fa";
+				PROVISIONING_PROFILE = "ff57a680-d24c-4d85-bd9e-ef0b9db059be";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -863,8 +889,8 @@
 			baseConfigurationReference = 987BE3AC11588E41F00CD527 /* Pods-Escortstars.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Rishabh Dubey (AJ67RUJC7P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rishabh Dubey (AJ67RUJC7P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -873,9 +899,9 @@
 				INFOPLIST_FILE = Escortstars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tecorb.VideoShot;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tecorb.Escortstars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2650bd13-0df9-410d-833e-629a7b5951fa";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -884,8 +910,8 @@
 			baseConfigurationReference = 0EC0BC5210A715A9F2749786 /* Pods-Escortstars.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Rishabh Dubey (AJ67RUJC7P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rishabh Dubey (AJ67RUJC7P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -893,9 +919,9 @@
 				INFOPLIST_FILE = Escortstars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tecorb.VideoShot;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tecorb.Escortstars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2650bd13-0df9-410d-833e-629a7b5951fa";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

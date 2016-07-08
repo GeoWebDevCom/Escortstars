@@ -44,7 +44,6 @@
 	self.tableView.separatorColor = [UIColor whiteColor];
     self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     self.automaticallyAdjustsScrollViewInsets = NO;
-	
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.backgroundColor = kNavigationColor;
     self.tableView.backgroundView=imageView;
@@ -99,7 +98,7 @@
 	switch (indexPath.row)
 	{
 		case 0:
-            vc = [mainStoryboard instantiateViewControllerWithIdentifier: @"ProfileViewController"];
+            vc = [mainStoryboard instantiateViewControllerWithIdentifier: @"ContactsBaseViewController"];
 			break;
         case 1:
         //block permanently

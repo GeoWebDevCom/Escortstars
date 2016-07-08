@@ -8,9 +8,7 @@
 
 #import "DropInViewController.h"
 #import "DropDownListView.h"
-//const static NSString *kDate = @"selected_date";
-//const static NSString *kStartTime = @"start_time";
-//const static NSString *kEndTime = @"end_time";
+
 
 @interface DropInViewController ()
 {
@@ -63,7 +61,7 @@
         NSDate *today = [NSDate date];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        // [params setValue:[dateFormatter stringFromDate:today] forKey:@"selected_date"];
+
         selectedDate = [dateFormatter stringFromDate:today];
         _dateLabel.text = selectedDate;
     } else {
@@ -209,7 +207,6 @@
                                                            action:@selector(resignFirstResponderStartDate)],nil ] animated:YES];
     doneBar.backgroundColor = kNavigationColor;
     doneBar.tintColor = [UIColor whiteColor];
-
     [self.startDateTextFiled setInputAccessoryView:doneBar];
 
 }
@@ -349,7 +346,7 @@
          {
          [CommonMethods hideLoader];
          //[self resetDropin];
-         [self showAlertWithMessage:@"Huuuray! Your profile is now marked as \"Available for drop-in\" on Escortstars.eu!" title:@"Message"];
+         [self showAlertWithMessage:@"Huuuray! Your profile is now marked as \"Available\"" title:@"Message"];
 
          } failure:^(NSURLSessionTask *operation, NSError *error) {
              [CommonMethods hideLoader];

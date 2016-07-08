@@ -66,8 +66,8 @@ static SlideNavigationController *singletonInstance;
 
 + (SlideNavigationController *)sharedInstance
 {
-	if (!singletonInstance)
-		NSLog(@"SlideNavigationController has not been initialized. Either place one in your storyboard or initialize one in code");
+    //if (!singletonInstance)
+		//NSLog(@"SlideNavigationController has not been initialized. Either place one in your storyboard or initialize one in code");
 	
 	return singletonInstance;
 }
@@ -115,7 +115,7 @@ static SlideNavigationController *singletonInstance;
 - (void)setup
 {
 //	if (singletonInstance)
-//		NSLog(@"Singleton instance already exists. You can only instantiate one instance of SlideNavigationController. This could cause major issues");
+//		//NSLog(@"Singleton instance already exists. You can only instantiate one instance of SlideNavigationController. This could cause major issues");
 
 	singletonInstance = self;
 	

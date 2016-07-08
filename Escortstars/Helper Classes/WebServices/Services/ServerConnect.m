@@ -83,7 +83,7 @@ static AFHTTPSessionManager *manager;
 -(id)commonResponseHandling:(id)response
 {
     //Handling Error Condition
-    //NSLog(@"%@", response);
+    ////NSLog(@"%@", response);
     if (![[response objectForKey:@"result"] isEqualToString:@"SUCCESS"])
     {
         if (self.completionBlockWithSuccess) {

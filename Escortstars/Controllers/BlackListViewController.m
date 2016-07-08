@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _blockedContactsArray = [[NSMutableArray alloc]init];
-
+    
     // self.tableView.allowsSelectionDuringEditing = NO;
 }
 
@@ -135,9 +135,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted == YES) {
-            NSArray *keys = @[CNContactBirthdayKey,CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactEmailAddressesKey];
-            NSString *containerId = store.defaultContainerIdentifier;
-            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
+            NSArray *keys = @[CNContactGivenNameKey, CNContactPhoneNumbersKey];
+            NSPredicate *predicate =[CNContact predicateForContactsMatchingName:@"Blacklisted Callers"];
 
             NSError *error;
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
@@ -197,7 +196,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
      {
      [CommonMethods hideLoader];
-     NSLog(@"delete response is : %@", responseObject);
+     //NSLog(@"delete response is : %@", responseObject);
      } failure:^(NSURLSessionTask *operation, NSError *error) {
          [CommonMethods hideLoader];
      }];
@@ -244,7 +243,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
                             [request updateContact:cont];
                             NSError *saveError;
                             if (![store executeSaveRequest:request error:&saveError]) {
-                                NSLog(@"error in saving contact..");
+                                //NSLog(@"error in saving contact..");
                             }else{
 
                             }
@@ -258,6 +257,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 -(IBAction)onClickClose:(id)sender{
+    if ([_delegate respondsToSelector:@selector(blackListDidClosed)]) {
+        [_delegate blackListDidClosed];
+    }
     [self didMoveToParentViewController:nil];
     [self.view removeFromSuperview];
     [self removeFromParentViewController];}

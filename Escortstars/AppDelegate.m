@@ -9,6 +9,7 @@
 #import "BaseViewController.h"
 #import "LoginViewController.h"
 #import "ProfileViewController.h"
+#import "ContactsBaseViewController.h"
 @interface AppDelegate(){
     UIApplication *app;
     User *user;
@@ -30,8 +31,8 @@
     BOOL isLoggedIN = (BOOL)[kUserDefault boolForKey:kLoggedIN];
     if(isLoggedIN){
         [kUserDefault setBool:YES forKey:kNewSession];
-         ProfileViewController *profileVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
-        SlideNavigationController *navController = [[SlideNavigationController alloc]initWithRootViewController:profileVC];
+         ContactsBaseViewController *home = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ContactsBaseViewController"];
+        SlideNavigationController *navController = [[SlideNavigationController alloc]initWithRootViewController:home];
         navController.leftMenu = leftMenu;
         navController.menuRevealAnimationDuration = .18;
         self.window.rootViewController = navController;
@@ -114,7 +115,7 @@
 
         if ([call.callState isEqualToString: CTCallStateConnected])
             {
-            NSLog(@"call stopped");
+            //NSLog(@"call stopped");
             }
         else if ([call.callState isEqualToString: CTCallStateDialing])
             {
@@ -185,7 +186,7 @@
 
 #pragma CLLocationManager delegate methods
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    NSLog(@"updating location..");
+    //NSLog(@"updating location..");
     if (_isBackgroundMode)
         {
         [self.locationManager allowDeferredLocationUpdatesUntilTraveled:CLLocationDistanceMax timeout:5];
@@ -217,7 +218,7 @@
     [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
      {
      [CommonMethods hideLoader];
-     NSLog(@"response is : %@", responseObject);
+     //NSLog(@"response is : %@", responseObject);
      } failure:^(NSURLSessionTask *operation, NSError *error) {
          [CommonMethods hideLoader];
      }];

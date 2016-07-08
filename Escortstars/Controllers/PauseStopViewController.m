@@ -40,7 +40,7 @@
     NSDate *today = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSLog(@"Now is :%@",[dateFormatter stringFromDate:today]);
+    //NSLog(@"Now is :%@",[dateFormatter stringFromDate:today]);
     return [dateFormatter stringFromDate:today];
 }
 -(NSString*)getTimeStringFromString:(NSString*)dateString{

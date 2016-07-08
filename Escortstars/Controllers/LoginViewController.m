@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "BaseViewController.h"
 #import "ProfileViewController.h"
+#import "ContactsBaseViewController.h"
 @interface LoginViewController ()
 
 @end
@@ -19,6 +20,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [CommonMethods makeViewCircular:_loginButton withBorderColor:[UIColor clearColor] withBorderWidth:0 withCornerRadius:5];
+
+    _userNameTextField.text = @"maxsprinter22@ukr.net";
+    _passwordTextField.text = @"inneti321";
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,9 +40,7 @@
         manager.responseSerializer = [AFJSONResponseSerializer
 
                                       serializerWithReadingOptions:NSJSONReadingAllowFragments];
-
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/html",@"text/json",nil];
-
         [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
          {
          [CommonMethods hideLoader];
@@ -87,8 +90,9 @@
      BOOL result = (BOOL)responseObject[@"result"];
         if (result)
          {
-            ProfileViewController *profileVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
-            [self.navigationController pushViewController:profileVC animated:YES];
+//            ProfileViewController *profileVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ProfileViewController"];
+            ContactsBaseViewController *home = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ContactsBaseViewController"];
+            [self.navigationController pushViewController:home animated:YES];
             [kUserDefault setBool:YES forKey:kLoggedIN];
          }
         else
@@ -162,7 +166,7 @@
         if (!granted) {
 
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@" store request error = %@", error);
+                //NSLog(@" store request error = %@", error);
 
             });
 

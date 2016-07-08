@@ -20,7 +20,7 @@
 }
 
 -(IBAction)onClickShare:(id)sender{
-    NSString *profileLink = @"www.escortstars.eu -EU's #1 escort site!";
+    NSString *profileLink = @"This is a demo text. www.google.co.in";
     NSString *textToShare = profileLink;
     NSArray *itemsToShare = @[textToShare];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];

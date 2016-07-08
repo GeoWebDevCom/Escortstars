@@ -1129,7 +1129,7 @@ static KVNProgressConfiguration *configuration;
 						 KVNBlockSelf.contentView.transform = CGAffineTransformIdentity;
 					 } completion:^(BOOL finished) {
 						 if (KVNBlockSelf.state != KVNProgressStateAppearing) {
-							 NSLog(@"KVNProgress: animateAppearance — animation completion — stopped, state is not appearing");
+							 //NSLog(@"KVNProgress: animateAppearance — animation completion — stopped, state is not appearing");
 							 return;
 						 }
 						 

@@ -109,7 +109,7 @@
                         [request updateContact:cont];
                         NSError *saveError;
                         if (![store executeSaveRequest:request error:&saveError]) {
-                            NSLog(@"error in saving contact..");
+                            //NSLog(@"error in saving contact..");
                         }else{
                             if ([_delegate respondsToSelector:@selector(numberDidSavedToList:number:)]) {
                                 [self dismissViewControllerAnimated:YES completion:nil];
@@ -148,7 +148,7 @@
         if (!granted) {
 
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@" store request error = %@", error);
+                //NSLog(@" store request error = %@", error);
 
             });
 
@@ -162,10 +162,11 @@
             contact.givenName = @"Blacklisted Callers";
 
             contact.imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"spam"], 0.7);
-            contact.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported spammers by Escorts. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
+            contact.note = @"Hi there 👋! This contact was created by E-stars and contains the latest reported spammers. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
         } else {
             contact.givenName = @"Whitelisted Callers";
-            contact.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported whitelist custumers by Escorts. It’s updated every time you refresh your WhiteList — so please don’t delete this contact!";
+            contact.note = @"Hi there 👋! This contact was created by E-stars and contains the latest reported spammers. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
+
         }
         NSMutableArray *numbers = [[NSMutableArray alloc]init];
         CNLabeledValue *aLabel = [CNLabeledValue labeledValueWithLabel:[NSString stringWithFormat:@"%@|%@",_nameTextField.text,rowID] value:[CNPhoneNumber phoneNumberWithStringValue:[NSString stringWithFormat:@"%@",_numberTextField.text]]];
@@ -209,7 +210,7 @@
         [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
          {
          [CommonMethods hideLoader];
-         NSLog(@"response is : %@", responseObject);
+         //NSLog(@"response is : %@", responseObject);
          NSString *rId = responseObject[@"id"];
          [self addToContactList:rId];
          } failure:^(NSURLSessionTask *operation, NSError *error) {

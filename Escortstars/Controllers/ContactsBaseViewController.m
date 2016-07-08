@@ -8,7 +8,7 @@
 
 #import "ContactsBaseViewController.h"
 
-@interface ContactsBaseViewController ()
+@interface ContactsBaseViewController ()<BlackListProtocol,WhiteListProtocol>
 {
     User *user;
     UIImage *emergecyImage;
@@ -65,24 +65,44 @@
     //add blacklist view as childviewcontroller
     BlackListViewController *blackListVC = [[UIStoryboard storyboardWithName:@"Main"
                                                                       bundle: nil] instantiateViewControllerWithIdentifier:@"BlackListViewController"];
+    blackListVC.delegate = self;
     [self addChildViewController:blackListVC];
     blackListVC.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 50);
     [self.view addSubview:blackListVC.view];
     [blackListVC didMoveToParentViewController:self];
 
+    //add syncronization button for blacklist at right side in navigationbar
+    self.navigationItem.rightBarButtonItems=nil;
+    UIBarButtonItem *refreshButton=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"refreshButton"] style:UIBarButtonItemStylePlain target:self action:@selector(onClickRefreshBlackList:)];
+    self.navigationItem.rightBarButtonItems=@[refreshButton];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
+
+-(IBAction)onClickRefreshBlackList:(UIBarButtonItem*)sender{
+    [self syncronizeBlackList];
+}
+-(IBAction)onClickRefreshWhiteList:(UIBarButtonItem*)sender{
+    [self syncronizeWhiteList];
+}
+
 -(IBAction)onClickViewMyWhiteList:(UIButton*)sender{
     [self.view endEditing:YES];
 
     // add whitelist view as childviewcontroller
     WhiteListViewController *whiteListVC = [[UIStoryboard storyboardWithName:@"Main"
                                                                       bundle: nil] instantiateViewControllerWithIdentifier:@"WhiteListViewController"];
+    whiteListVC.delegate = self;
     [self addChildViewController:whiteListVC];
     whiteListVC.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 50);
     [self.view addSubview:whiteListVC.view];
     [whiteListVC didMoveToParentViewController:self];
-
-
+    //add syncronization button for blacklist at right side in navigationbar
+    self.navigationItem.rightBarButtonItems=nil;
+    UIBarButtonItem *refreshButton=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"refreshButton"] style:UIBarButtonItemStylePlain target:self action:@selector(onClickRefreshWhiteList:)];
+    self.navigationItem.rightBarButtonItems=@[refreshButton];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 -(void)addContacts{
@@ -103,26 +123,21 @@
     CNContactStore *store = [[CNContactStore alloc] init];
 
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-
         if (!granted) {
-
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@" store request error = %@", error);
-
+                //NSLog(@" store request error = %@", error);
             });
-
             return;
-
         }
 
         // create contact
         CNMutableContact *contactToBlacklist = [[CNMutableContact alloc] init];
         contactToBlacklist.givenName = @"Blacklisted Callers";
         contactToBlacklist.imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"spam"], 0.7);
-        contactToBlacklist.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported spammers by Escorts. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
+        contactToBlacklist.note = @"Hi there 👋! This contact was created by E-stars and contains the latest reported spammers. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
         CNMutableContact *contactToWhitelist = [[CNMutableContact alloc] init];
         contactToWhitelist.givenName = @"Whitelisted Callers";
-        contactToWhitelist.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported whitelist custumers by Escorts. It’s updated every time you refresh your WhiteList — so please don’t delete this contact!";
+        contactToWhitelist.note = @"Hi there 👋! This contact was created by E-stars and contains the latest reported whitelist custumers. It’s updated every time you refresh your WhiteList — so please don’t delete this contact!";
         CNSaveRequest *request = [[CNSaveRequest alloc] init];
         NSString *containerId = store.defaultContainerIdentifier;
 
@@ -181,7 +196,7 @@
     [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
      {
      [CommonMethods hideLoader];
-     NSLog(@"whitelist syncronize response is : %@", responseObject);
+     //NSLog(@"whitelist syncronize response is : %@", responseObject);
      NSDictionary *phones = responseObject[@"phones"];
      [self addSyncronizedListInSystemContacts:phones inlistType:WhiteList];
      } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -209,10 +224,15 @@
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted == YES) {
-            NSArray *keys = @[CNContactBirthdayKey,CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactEmailAddressesKey];
-            NSString *containerId = store.defaultContainerIdentifier;
-            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
-            NSError *error;
+            NSArray *keys = @[CNContactGivenNameKey, CNContactPhoneNumbersKey];
+            NSString *searchingContact;
+            if (listType == BlackList) {
+                searchingContact = @"Blacklisted Callers";
+            } else if (listType == WhiteList){
+                searchingContact = @"Whitelisted Callers";
+            }
+
+            NSPredicate *predicate = [CNContact predicateForContactsMatchingName:searchingContact];            NSError *error;
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             if (error) {
                 return ;
@@ -226,7 +246,7 @@
                     NSDictionary *details = phones[rId];
                     NSString *name;
                     if(listType == BlackList){
-                        name = [NSString stringWithFormat:@"Blacklisted Caller%d",i];
+                        name = [NSString stringWithFormat:@"Blacklisted Caller%lu",(unsigned long)i];
                         i++;
                     }else{
                         name = details[@"name"];
@@ -256,9 +276,27 @@
                         [request updateContact:cont];
                         NSError *saveError;
                         if (![store executeSaveRequest:request error:&saveError]) {
-                            NSLog(@"error in saving contact..");
+                            //NSLog(@"error in saving contact..");
                         }else{
-                            //[self calledViewWillAppear];
+                            if (listType == BlackList) {
+                                for (UIViewController *vc in self.childViewControllers) {
+                                    if([vc isKindOfClass:[BlackListViewController class]]){
+                                        BlackListViewController *bVC = (BlackListViewController*)vc;
+                                        [bVC contactsDetailsFromAddressBook];
+                                        break;
+                                    }
+                                }
+                            } else if (listType == WhiteList){
+                                for (UIViewController *vc in self.childViewControllers) {
+                                    if([vc isKindOfClass:[WhiteListViewController class]]){
+                                        WhiteListViewController *wVC = (WhiteListViewController*)vc;
+                                        [wVC contactsDetailsFromAddressBook];
+                                        break;
+                                    }
+                                }
+                            }
+
+
                         }
                         }
                 }
@@ -296,15 +334,20 @@
     CNContactStore *store = [[CNContactStore alloc] init];
     [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
         if (granted == YES) {
-            NSArray *keys = @[CNContactBirthdayKey,CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactEmailAddressesKey];
-            NSString *containerId = store.defaultContainerIdentifier;
-            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
+            NSArray *keys = @[CNContactGivenNameKey,CNContactPhoneNumbersKey];
+            NSString *searchingContact;
+            if (listType == BlackList) {
+                searchingContact = @"Blacklisted Callers";
+            } else if (listType == WhiteList){
+                searchingContact = @"Whitelisted Callers";
+            }
+
+            NSPredicate *predicate = [CNContact predicateForContactsMatchingName:searchingContact];
             NSError *error;
             NSArray *cnContacts = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
             if (error) {
                 return ;
             } else {
-                NSString *searchingContact;
                 NSString *nameToStore;
                 if (listType == BlackList) {
                     searchingContact = @"Blacklisted Callers";
@@ -321,7 +364,7 @@
                         NSMutableArray *numbers = [[NSMutableArray alloc]init];
                         if (listType == BlackList) {
                             NSUInteger count = contact.phoneNumbers.count + 1;
-                            nameToStore = [NSString stringWithFormat:@"Blacklisted Caller %d",count];
+                            nameToStore = [NSString stringWithFormat:@"Blacklisted Caller %lu",(unsigned long)count];
                         }
                         CNLabeledValue *aLabel = [CNLabeledValue labeledValueWithLabel:[NSString stringWithFormat:@"%@ |%@",nameToStore,rowID] value:[CNPhoneNumber phoneNumberWithStringValue:[NSString stringWithFormat:@"%@",number]]];
                         [numbers removeAllObjects];
@@ -333,10 +376,12 @@
                         [request updateContact:cont];
                         NSError *saveError;
                         if (![store executeSaveRequest:request error:&saveError]) {
-                            NSLog(@"error in saving contact..");
                         }else{
-                            [self showAlertWithMessage:@"Saved successfully" title:@"Message"];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [self showAlertWithMessage:@"Saved successfully" title:@"Message"];
+                            });
                         }
+                        break;
                         }
                 }
                 if (!found) {
@@ -374,7 +419,7 @@
         [manager POST:BASE_URL parameters:params progress:nil success:^(NSURLSessionTask *task, id responseObject)
          {
          [CommonMethods hideLoader];
-         NSLog(@"response is : %@", responseObject);
+         //NSLog(@"response is : %@", responseObject);
          NSString *rId = responseObject[@"id"];
          [self addToContactList:listType withRowId:rId withName:name andNumber:number];
          } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -385,63 +430,6 @@
 }
 
 
-//-(void)addContactsForList:(NumberListType)listType rowID:(NSString*)rowID{
-//    CNAuthorizationStatus status = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-//    if (status == CNAuthorizationStatusDenied || status == CNAuthorizationStatusRestricted) {
-//
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"This app previously was refused permissions to contacts; Please go to settings and grant permission to this app so it can add the desired contact" preferredStyle:UIAlertControllerStyleAlert];
-//
-//        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-//        [self.presentingViewController presentViewController:alert animated:TRUE completion:nil];
-//        return;
-//    }
-//
-//
-//
-//    CNContactStore *store = [[CNContactStore alloc] init];
-//
-//    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//
-//        if (!granted) {
-//
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSLog(@" store request error = %@", error);
-//
-//            });
-//
-//            return;
-//
-//        }
-//
-//        // create contact
-//        CNMutableContact *contact = [[CNMutableContact alloc] init];
-//        if (listType == BlackList) {
-//            contact.givenName = @"Blacklisted Callers";
-//            contact.imageData = UIImageJPEGRepresentation([UIImage imageNamed:@"spam"], 1.0);
-//            contact.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported spammers by Escorts. It’s updated every time you refresh your Spam List — so please don’t delete this contact!";
-//        } else {
-//            contact.givenName = @"Whitelisted Callers";
-//            contact.note = @"Hi there 👋! This contact was created by Escortstars and contains the latest reported whitelist custumers by Escorts. It’s updated every time you refresh your WhiteList — so please don’t delete this contact!";
-//        }
-//        NSMutableArray *numbers = [[NSMutableArray alloc]init];
-//        CNLabeledValue *aLabel = [CNLabeledValue labeledValueWithLabel:[NSString stringWithFormat:@"%@|%@",_nameTextField.text,rowID] value:[CNPhoneNumber phoneNumberWithStringValue:[NSString stringWithFormat:@"%@",_numberTextField.text]]];
-//        [numbers removeAllObjects];
-//        [numbers addObject:aLabel];
-//        contact.phoneNumbers = numbers;
-//        CNSaveRequest *request = [[CNSaveRequest alloc] init];
-//        NSString *containerId = store.defaultContainerIdentifier;
-//        [request addContact:contact toContainerWithIdentifier:containerId];
-//        NSError *saveError;
-//
-//        if (![store executeSaveRequest:request error:&saveError]) {
-//            [kUserDefault setBool:NO forKey:kContactCreated];
-//        }
-//        else{
-//            [kUserDefault setBool:YES forKey:kContactCreated];
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//        }
-//    }];
-//}
 
 
 -(void)showAlertWithMessage:(NSString*)message title:(NSString*)title{
@@ -453,6 +441,15 @@
     [alert addAction:okayAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+-(void)blackListDidClosed{
+    self.navigationItem.rightBarButtonItems=nil;
+}
+-(void)whiteListDidClosed{
+    self.navigationItem.rightBarButtonItems=nil;
+}
+
+
 /*
 #pragma mark - Navigation
 

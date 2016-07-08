@@ -18,10 +18,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //NSString *currentURL = @"http://escortstars.eu/faq/";
-    NSString *currentURL = [NSString stringWithFormat:@"%@/privacy",[kUserDefault valueForKey:kUserProfileLink]];
-    [privacyPolicyWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:currentURL]]];
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"privacypolicy" ofType:@"docx"];
+    NSURL *targetURL = [NSURL fileURLWithPath:path];
+    [privacyPolicyWebView loadRequest:[NSURLRequest requestWithURL:targetURL]];
     privacyPolicyWebView.hidden = NO;
+    privacyPolicyWebView.scalesPageToFit = YES;
 }
 
 - (void)didReceiveMemoryWarning {
